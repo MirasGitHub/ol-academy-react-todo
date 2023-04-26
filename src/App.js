@@ -10,7 +10,7 @@ class App extends React.Component {
     return (
       <div className="container App">
 
-     <Todo title='ToDo List'/>
+     <Todo title='ToDo List' />
       
   
 

@@ -98,10 +98,12 @@ class Todo extends React.Component {_
 
     //Edit the Task event handler
     handleEdit = (id) => {
+        console.log(id)
 
             const mapedName = this.state.todos.map(
                 todo => todo.name
             )
+        
             
             const filteredName = mapedName.filter(name => name.id !== id)
 
@@ -136,7 +138,7 @@ class Todo extends React.Component {_
     }
 
     deleteCheckedTasks = (id) => {
-
+        console.log(this)
         console.log(id);
     }
 
@@ -161,7 +163,7 @@ class Todo extends React.Component {_
                                 handleDelete={this.handleDelete}
                                 handleDone={this.handleDone}
                                 deleteCheckedTasks={this.deleteCheckedTasks}
-                                handleEdit = {this.handleEdit}
+                                handleEdit={this.handleEdit}
                                 />
                             ))
                         }
@@ -177,10 +179,10 @@ class Todo extends React.Component {_
             <div className="inputContainer">
                 <input
                 onChange={this.handleInputChange} 
-                value={this.state.inputValue} class="form-control form-control-md" type="text" id="validationCustom03" required></input>
+                value={this.state.inputValue} className="form-control form-control-md" type="text" id="validationCustom03" required></input>
                  
 
-                <button onClick={this.handleAddTodo} type="button" class="btn btn-primary">Add Todo</button>
+                <button onClick={this.handleAddTodo} type="button" className="btn btn-primary">Add Todo</button>
 
             </div>
             <div style={{ color: "red" }}> {this.state.error} </div>
@@ -188,12 +190,12 @@ class Todo extends React.Component {_
             <br/>
             
             
-            <button onClick={() => this.deleteCheckedTasks()} type="button" class="btn btn-secondary">Delete checked tasks</button>
+            <button onClick={() => this.deleteCheckedTasks(this.state.todos.id)} type="button" className="btn btn-secondary">Delete checked tasks</button>
             
 
             <br />
             <br />
-            <button onClick={this.deleteAllTasks} type="button" class="btn btn-danger">Delete All tasks</button>
+            <button onClick={this.deleteAllTasks} type="button" className="btn btn-danger">Delete All tasks</button>
                
             </div>
         )
