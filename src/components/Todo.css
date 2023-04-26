@@ -1,0 +1,17 @@
+
+
+.inputContainer{
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.inputContainer input{
+    margin-right: 10px;
+}
+
+ul li{
+    margin: 20px;
+}
