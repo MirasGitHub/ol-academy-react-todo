@@ -119,7 +119,13 @@ class Todo extends React.Component {_
     //mark the task as done
     handleDone = (id) => { 
     
-
+        const updatedTodos = this.state.todos.map(todo => {
+            if (todo.id === id) {
+                todo.isDone = true;
+              }
+              return todo;
+            });
+            this.setState({ todos: updatedTodos });
      
 
     }
@@ -182,7 +188,7 @@ class Todo extends React.Component {_
                 value={this.state.inputValue} className="form-control form-control-md" type="text" id="validationCustom03" required></input>
                  
 
-                <button onClick={this.handleAddTodo} type="button" className="btn btn-primary">Add Todo</button>
+                <button onClick={this.handleAddTodo} type="button" className="btn btn-primary">Add</button>
 
             </div>
             <div style={{ color: "red" }}> {this.state.error} </div>
