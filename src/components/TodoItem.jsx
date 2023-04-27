@@ -7,7 +7,9 @@ class TodoItem extends React.Component {
     render(){
         return(
             <div>
-                    <li key={this.props.todo.id} style={{textDecoration: this.props.todo.isDone ? 'line-through': 'none' }}
+                    <li key={this.props.todo.id} style={{
+                        textDecoration: this.props.todo.isDone ? 'line-through': 'none',
+                     }}
                     >
                     <div className="listItemsContainer">
                         <div>

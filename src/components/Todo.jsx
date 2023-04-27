@@ -13,16 +13,19 @@ class Todo extends React.Component {_
                     name: "Learn React",
                     id: 1,
                     isDone: false,
+                    isChecked: false,
                 },
                 {
                     name: "Learn Angular",
                     id: 2,
                     isDone: false,
+                    isChecked: false,
                 },
                 {
                     name: "Learn Vue",
                     id: 3,
                     isDone: false,
+                    isChecked: false,
                 }      
             ],
             inputValue: "",
@@ -63,6 +66,7 @@ class Todo extends React.Component {_
                  name: inputVal,
                  id: newId,
                  isDone: false,
+                 isChecked: false,
              }],
                 inputValue: '',
                 error: '',
@@ -119,13 +123,13 @@ class Todo extends React.Component {_
     //mark the task as done
     handleDone = (id) => { 
     
-        const updatedTodos = this.state.todos.map(todo => {
+        const doneTodos = this.state.todos.map(todo => {
             if (todo.id === id) {
                 todo.isDone = true;
               }
               return todo;
             });
-            this.setState({ todos: updatedTodos });
+            this.setState({ todos: doneTodos });
      
 
     }
