@@ -2,10 +2,10 @@
 
 ### Main Components:
  - Add, Remove, Edit, Delete Buttons:
-   -- Add button adds new todo into list
-   -- Remove button removes the todo from list
-   -- Edit button edits the todo
-   -- Delete button deletes the todo from list
+   ##### Add button adds new todo into list
+   ##### Remove button removes the todo from list
+   ##### Edit button edits the todo
+   ##### Delete button deletes the todo from list
 
  - Up/Down arrows that swaps the elements of the list up and down. 
 
