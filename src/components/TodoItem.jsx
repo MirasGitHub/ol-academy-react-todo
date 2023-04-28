@@ -1,27 +1,47 @@
 import React from "react";
-import './TodoItem.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
+import './TodoItem.css'
 
 
 class TodoItem extends React.Component {
-    constructor(props){
-        super(props)
-    }
-
+   
     render(){
         return(
             <div>
-                    <li key={this.props.todo.id} style={{
+                <li key={this.props.todo.id} style={{
                         textDecoration: this.props.todo.isDone ? 'line-through': 'none',
                      }}
                     >
-                    <div className="listItemsContainer">
-                        <div>
-                           <input type="checkbox" 
-                            checked={this.props.todo.isChecked}
-                            onChange={ ()=> this.props.handleCheckedTodos( this.props.todo.id)}
-                            />
+                  <div className="listItemsContainer">
+                        <div className="todoTitleContainer">
+                            <div>
+                                <input type="checkbox" 
+                                checked={this.props.todo.isChecked}
+                                onChange={ ()=> this.props.handleCheckedTodos( this.props.todo.id)}
+                                />
+                            </div>
+                            <div>
+                                <p>{this.props.todo.name}</p>
+                            </div>
+                             
+                        </div>
 
-                            {this.props.todo.name} 
+                        <div className="upDownContainer">
+                            <button 
+                            className="btn btn-info"
+                            onClick={() => this.props.handleMoveUp(this.props.todo.id)}
+                            >
+                                <FontAwesomeIcon icon={faArrowUp} />
+                                </button>
+
+                            <button
+                            className="btn btn-info" 
+                            onClick={()=>this.props.handleMoveDown(this.props.todo.id)}
+                            >
+                                
+                                <FontAwesomeIcon icon={faArrowDown} />
+                            </button>
                         </div>
 
                         
@@ -47,6 +67,7 @@ class TodoItem extends React.Component {
                                 handleDone={this.props.handleDone}
                             /> */}
                         </div>
+                        
 
                     </div>
                 </li>

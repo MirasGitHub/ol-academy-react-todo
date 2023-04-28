@@ -1,7 +1,7 @@
 import React from "react";
 import TodoItem from "./TodoItem";
-//import 'bootstrap/dist/css/bootstrap.min.css'
-import './Todo.scss'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './Todo.css'
 import DeleteButtons from "./DeleteButtons";
 import EditorComponent from "./EditorComponent";
 
@@ -85,7 +85,7 @@ class Todo extends React.Component {_
         }else if(usedTodoArr.includes(inputVal)){
             
             this.setState({
-                error: "Already Exists.",
+                error: "This Task Already Exists.",
             })
             
         }
@@ -218,6 +218,37 @@ class Todo extends React.Component {_
         })
     }
 
+    //Handle up
+    handleMoveUp = (id) => {
+        if(id === 0){
+            return;
+        }
+
+       this.setState(prevState => {
+            const todos =[...prevState.todos];
+            const temp = todos[id];
+            todos[id] = todos[id - 1];
+            todos[id - 1] = temp;
+            return {todos};
+        });
+    
+    }
+
+    handleMoveDown = (id) => {
+        if(id === this.state.todos.length - 1){
+            return;
+        }
+
+        this.setState(prevState => {
+            const todos = [...prevState.todos];
+            const temp = todos[id];
+            todos[id] = todos[id + 1];
+            todos[id + 1] = temp;
+            return {todos};
+        })
+        
+    }
+
 
     render(){
 
@@ -232,7 +263,7 @@ class Todo extends React.Component {_
                 <div>
                     <ul>
                         {
-                            this.state.todos.map((todo) => (
+                            this.state.todos.map((todo, index) => (
                                 <TodoItem 
                                 key={todo.id}
                                 todo={todo}
@@ -240,6 +271,8 @@ class Todo extends React.Component {_
                                 handleCheckedTodos={this.handleCheckedTodos}
                                 handleDone={this.handleDone}
                                 handleEdit={()=>this.handleEdit(todo.id, todo.name)}
+                                handleMoveUp={()=>this.handleMoveUp(index)}
+                                handleMoveDown={()=>this.handleMoveDown(index)}
                                 />
                             ))
                         }
@@ -258,7 +291,7 @@ class Todo extends React.Component {_
                 value={this.state.inputValue} 
                 className="form-control form-control-md" 
                 type="text" 
-                id="validationCustom03" required></input>
+                ></input>
                  
 
                 <button onClick={this.handleAddTodo} type="button" className="btn btn-primary">Add</button>

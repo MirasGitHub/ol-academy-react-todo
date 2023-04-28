@@ -1,0 +1,31 @@
+
+
+.listItemsContainer{
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+}
+
+.buttonsContainer button{
+    margin: 10px;
+}
+
+.todoTitleContainer{
+    display: flex;
+}
+
+.todoTitleContainer input{
+    margin-right: 5px;
+}
+
+.upDownContainer{
+    display: flex;
+
+
+}
+
+.upDownContainer button{
+    margin: 5px;
+    
+}
