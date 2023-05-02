@@ -60,8 +60,6 @@ class Todo extends React.Component {_
         const inputVal = this.state.inputValue;
         const usedTodoArr = this.state.todos.map(todo => todo.name);
 
-        console.log(inputVal, usedTodoArr, usedTodoArr.includes(inputVal))
-
         const usedIds = this.state.todos.map(todo => todo.id);
         let newId = 0;
 
@@ -112,8 +110,6 @@ class Todo extends React.Component {_
 
     //Edit the Task event handler
     handleEdit = (id, inputValue) => {
-        console.log(id);
-        console.log(inputValue);
 
         this.setState({
             editor: {
@@ -200,7 +196,7 @@ class Todo extends React.Component {_
 
     //Handle Editor Save
     handleEditorSave = () => {
-        console.log("Clicked")
+        
         const todos = this.state.todos;
 
         todos.map((todo) => {
