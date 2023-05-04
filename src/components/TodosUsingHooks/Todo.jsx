@@ -285,9 +285,9 @@ const Todo = (props) => {
         }
 
         <DeleteButtons
-         deleteCheckedTasks={deleteCheckedTasks}
-         deleteCompleteTasks={deleteCompleteTasks}
-         deleteAllTask={deleteAllTask}/>
+          deleteCheckedTasks={deleteCheckedTasks}
+          deleteCompleteTasks={deleteCompleteTasks}
+          deleteAllTask={deleteAllTask}/>
 
             
         </div>

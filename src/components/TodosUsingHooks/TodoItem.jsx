@@ -32,7 +32,7 @@ const TodoItem = (props) => {
                </div>
 
                 <div className="upDownContainer">
-                            <span
+                            <span 
                             onClick={() => props.handleMoveUp(index)}
                             >
                                 <FontAwesomeIcon icon={faArrowUp} />
@@ -47,20 +47,23 @@ const TodoItem = (props) => {
 
                 <div className='iconsWrap'>
 
-                  <span onClick={() => props.handleCompleteTodo(todo.id)}>
+                  <span className='btn btn-success' 
+                  onClick={() => props.handleCompleteTodo(todo.id)}>
                     <FontAwesomeIcon icon={faCircleCheck} />
                   </span>
 
                 {
                   todo.isDone ? null : (
-                    <span title="Edit" 
+                    <span className='btn btn-warning'
+                    title="Edit" 
                     onClick={() => props.handleEdit(todo.id, todo.name)}>
                       <FontAwesomeIcon icon={faPen} />
                     </span>
                   )
                 }
 
-                  <span onClick={() => props.handleDeleteTodo(todo.id)}>  
+                  <span className='btn btn-danger'
+                  onClick={() => props.handleDeleteTodo(todo.id)}>  
                     <FontAwesomeIcon icon={faTrashCan} />
                   </span>
 
