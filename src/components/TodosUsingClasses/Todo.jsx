@@ -1,331 +1,332 @@
 import React from "react";
+
 import TodoItem from "./TodoItem";
-import 'bootstrap/dist/css/bootstrap.min.css'
-import './Todo.css'
 import DeleteButtons from "./DeleteButtons";
 import EditorComponent from "./EditorComponent";
 
+import "./Todo.css";
 
-class Todo extends React.Component {_
-    constructor(props) {
-        super(props);
+class Todo extends React.Component {
+	constructor(props) {
+		super(props);
 
-        this.state = {
-            todos: [
-                {
-                    name: "Learn React",
-                    id: 1,
-                    isDone: false,
-                    isChecked: false,
-                },
-                {
-                    name: "Learn Angular",
-                    id: 2,
-                    isDone: false,
-                    isChecked: false,
-                },
-                {
-                    name: "Learn Vue",
-                    id: 3,
-                    isDone: false,
-                    isChecked: false,
-                }      
-            ],
-            inputValue: "",
-            error: '',
-            editor: {
-                isEditing: false,
-                id: undefined,
-                inputValue: '',
-            }
-        }
+		this.state = {
+			todos: [
+				{
+					name: "Learn React",
+					id: 1,
+					isDone: false,
+					isChecked: false,
+				},
+				{
+					name: "Learn Angular",
+					id: 2,
+					isDone: false,
+					isChecked: false,
+				},
+				{
+					name: "Learn Vue",
+					id: 3,
+					isDone: false,
+					isChecked: false,
+				},
+			],
+			inputValue: "",
+			error: "",
+			editor: {
+				isEditing: false,
+				id: undefined,
+				inputValue: "",
+			},
+		};
 
+		this.handleInputChange = this.handleInputChange.bind(this);
+		this.handleAddTodo = this.handleAddTodo.bind(this);
 
-        //bind the methods to this context
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleAddTodo = this.handleAddTodo.bind(this);
-    }
+		const {
+			handleDelete,
+			handleCheckedTodos,
+			handleDone,
+			handleEdit,
+			handleMoveUp,
+			handleMoveDown,
+			handleInputChange,
+			handleAddTodo,
+			deleteCheckedTasks,
+			deleteDoneTasks,
+			deleteAllTasks,
+			handleEditorChange,
+			handleEditorSave,
+		} = this;
 
-    //Handle input change
+		const { todos, inputValue, error, editor } = this.state;
+	}
 
-    handleInputChange = (event) =>{
-        this.setState({
-            inputValue: event.target.value,
-        })
-    }
+	handleInputChange = (event) => {
+		this.setState({
+			inputValue: event.target.value,
+		});
+	};
 
+	handleAddTodo() {
+		const inputVal = this.state.inputValue;
+		const usedTodoArr = this.state.todos.map((todo) => todo.name);
 
-    //Add the task in ul
-    handleAddTodo (){
-        const inputVal = this.state.inputValue;
-        const usedTodoArr = this.state.todos.map(todo => todo.name);
+		const usedIds = this.state.todos.map((todo) => todo.id);
+		let newId = 0;
 
-        const usedIds = this.state.todos.map(todo => todo.id);
-        let newId = 0;
+		if (usedIds.length > 0) {
+			newId = Math.max(...usedIds) + 1;
+		}
 
-        if(usedIds.length > 0){
-            newId = Math.max(...usedIds) + 1;
-        }
+		if (inputVal !== "" && !usedTodoArr.includes(inputVal)) {
+			this.setState({
+				todos: [
+					...this.state.todos,
+					{
+						name: inputVal,
+						id: newId,
+						isDone: false,
+						isChecked: false,
+					},
+				],
+				inputValue: "",
+				error: "",
+			});
+		} else if (usedTodoArr.includes(inputVal)) {
+			this.setState({
+				error: "This Task Already Exists.",
+			});
+		}
 
-        if(inputVal !== "" && !usedTodoArr.includes(inputVal)){
+		if (inputVal === "") {
+			this.setState({
+				error: "Please Enter Your Task",
+			});
+		}
+	}
 
-            this.setState({
-                todos: [...this.state.todos, {
-                 name: inputVal,
-                 id: newId,
-                 isDone: false,
-                 isChecked: false,
-             }],
-                inputValue: '',
-                error: '',
-             })
-            
-        }else if(usedTodoArr.includes(inputVal)){
-            
-            this.setState({
-                error: "This Task Already Exists.",
-            })
-            
-        }
+	handleDelete = (id) => {
+		const filteredTodos = this.state.todos.filter((todo) => todo.id !== id);
 
-        if(inputVal === ""){
-            this.setState({
-                error: "Please Enter Your Task"
-            })
-        }
-    }
+		this.setState({
+			todos: filteredTodos,
+		});
+	};
 
-    
-    //Delete task
-    handleDelete = (id) => {
+	handleEdit = (id, inputValue) => {
+		this.setState({
+			editor: {
+				id,
+				inputValue,
+				isEditing: true,
+			},
+		});
+	};
 
-        const filteredTodos = this.state.todos.filter(
-            todo => todo.id !== id
-        )
+	handleDone = (id) => {
+		const doneTodos = this.state.todos.map((todo) => {
+			if (todo.id === id) {
+				todo.isDone = true;
+			}
+			return todo;
+		});
+		this.setState({ todos: doneTodos });
+	};
 
-        this.setState({
-            todos: filteredTodos,
-        })
-    }
+	deleteDoneTasks = () => {
+		this.setState((prevState) => {
+			const todos = this.state.todos.filter((todo) => !todo.isDone);
+			return {
+				...prevState,
+				todos,
+				editor: {
+					isEditing: false,
+				},
+			};
+		});
+	};
 
-    //Edit the Task event handler
-    handleEdit = (id, inputValue) => {
+	deleteAllTasks = (clicked) => {
+		if (clicked) {
+			this.setState({
+				todos: [],
+				inputValue: "",
+				error: "",
+				editor: {
+					isEditing: false,
+				},
+			});
+		}
+	};
 
-        this.setState({
-            editor: {
-                id, //id: id
-                inputValue,
-                isEditing: true,
-            }
-        })
+	handleCheckedTodos = (id) => {
+		this.setState((prevState) => {
+			const todos = prevState.todos.map((todo) => {
+				if (todo.id === id) {
+					return { ...todo, isChecked: !todo.isChecked };
+				}
+				return todo;
+			});
 
-    }
+			return { todos };
+		});
+	};
 
-    //mark the task as done
-    handleDone = (id) => { 
-    
-        const doneTodos = this.state.todos.map(todo => {
-            if (todo.id === id) {
-                todo.isDone = true;
-              }
-              return todo;
-            });
-            this.setState({ todos: doneTodos });
-    }
+	deleteCheckedTasks = () => {
+		this.setState((prevState) => {
+			const todos = prevState.todos.filter((todo) => !todo.isChecked);
 
-    //Delete Done tasks
+			return {
+				...prevState,
+				todos,
+				editor: {
+					isEditing: false,
+				},
+			};
+		});
+	};
 
-    deleteDoneTasks = () => {
-        console.log("deleted")
-        this.setState(prevState => {
-            const todos = this.state.todos.filter(
-                todo => !todo.isDone
-            );
-            return {...prevState, todos}
-        })
-    }
+	handleEditorChange = (event) => {
+		this.setState({
+			editor: {
+				...this.state.editor,
+				inputValue: event.target.value,
+			},
+		});
+	};
 
-    //Delete all tasks
-    deleteAllTasks = (clicked) => {
-        alert("are you sure you want to delete all tasks?");
-        if(clicked){
-            this.setState({
-                todos:[],
-                inputValue: "",
-                error: ''
-            })
-        }
-        
-    }
+	handleEditorSave = () => {
+		const todos = this.state.todos;
 
-    //Handle Chacked items
-    handleCheckedTodos = (id) => {
-        
-        this.setState(prevState => {
-            const todos = prevState.todos.map(todo => {
-                if(todo.id === id) {
-                    return {...todo, isChecked: !todo.isChecked};
-                }
-                return todo;
-            });
+		todos.map((todo) => {
+			if (todo.id === this.state.editor.id) {
+				todo.name = this.state.editor.inputValue;
+			}
+			return todo;
+		});
 
-            return {todos};
-        });
-    }
+		this.setState({
+			todos,
+			editor: {
+				isEditing: false,
+			},
+		});
+	};
 
-    //Delete Checked items
-    deleteCheckedTasks = () => {
-        this.setState(prevState => {
-            const todos = prevState.todos.filter(todo => !todo.isChecked);
+	handleMoveUp = (id) => {
+		if (id === 0) {
+			return;
+		}
 
-            return{...prevState, todos};
-        });
-    }
+		this.setState((prevState) => {
+			const todos = [...prevState.todos];
+			const temp = todos[id];
+			todos[id] = todos[id - 1];
+			todos[id - 1] = temp;
+			return { todos };
+		});
+	};
 
+	handleMoveDown = (id) => {
+		if (id === this.state.todos.length - 1) {
+			return;
+		}
 
-    //Handle Editor Change
-    handleEditorChange = (event) => {
-        this.setState({
-            editor: {
-                ...this.state.editor,
-                inputValue: event.target.value,
-            }
-        })
-    }
+		this.setState((prevState) => {
+			const todos = [...prevState.todos];
+			const temp = todos[id];
+			todos[id] = todos[id + 1];
+			todos[id + 1] = temp;
+			return { todos };
+		});
+	};
 
+	render() {
+		const { title } = this.props;
+		const { todos, inputValue, error, editor } = this.state;
+		const {
+			handleDelete,
+			handleCheckedTodos,
+			handleDone,
+			handleEdit,
+			handleMoveUp,
+			handleMoveDown,
+			handleInputChange,
+			handleAddTodo,
+			deleteCheckedTasks,
+			deleteDoneTasks,
+			deleteAllTasks,
+			handleEditorChange,
+			handleEditorSave,
+		} = this;
+		return (
+			<div>
+				<h1>{title}</h1>
 
-    //Handle Editor Save
-    handleEditorSave = () => {
-        
-        const todos = this.state.todos;
+				{todos && todos.length > 0 ? (
+					<div>
+						<ul>
+							{todos.map((todo, index) => (
+								<TodoItem
+									key={todo.id}
+									todo={todo}
+									handleDelete={handleDelete}
+									handleCheckedTodos={handleCheckedTodos}
+									handleDone={handleDone}
+									handleEdit={() => handleEdit(todo.id, todo.name)}
+									handleMoveUp={() => handleMoveUp(index)}
+									handleMoveDown={() => handleMoveDown(index)}
+								/>
+							))}
+						</ul>
+					</div>
+				) : (
+					<div>No Tasks...</div>
+				)}
 
-        todos.map((todo) => {
-            if(todo.id === this.state.editor.id){
-                todo.name = this.state.editor.inputValue
-            }
-            return todo;
-        })
+				<div className="inputContainer">
+					<input
+						onChange={this.handleInputChange}
+						value={this.state.inputValue}
+						className="form-control form-control-md"
+						type="text"
+					></input>
 
-        this.setState({
-            todos,
-            editor: {
-                isEditing: false,
-            }
-        })
-    }
+					<button
+						onClick={this.handleAddTodo}
+						type="button"
+						className="btn btn-primary"
+					>
+						Add
+					</button>
+				</div>
+				<div style={{ color: "red" }}> {error} </div>
 
-    //Handle up
-    handleMoveUp = (id) => {
-        if(id === 0){
-            return;
-        }
+				<br />
+				<br />
 
-       this.setState(prevState => {
-            const todos =[...prevState.todos];
-            const temp = todos[id];
-            todos[id] = todos[id - 1];
-            todos[id - 1] = temp;
-            return {todos};
-        });
-    
-    }
+				<DeleteButtons
+					deleteCheckedTasks={deleteCheckedTasks}
+					deleteDoneTasks={deleteDoneTasks}
+					deleteAllTasks={deleteAllTasks}
+				/>
 
-    handleMoveDown = (id) => {
-        if(id === this.state.todos.length - 1){
-            return;
-        }
+				<br />
 
-        this.setState(prevState => {
-            const todos = [...prevState.todos];
-            const temp = todos[id];
-            todos[id] = todos[id + 1];
-            todos[id + 1] = temp;
-            return {todos};
-        })
-        
-    }
-
-
-    render(){
-
-
-        return(
-            <div>
-                <h1>{this.props.title}</h1>
-
-            {
-                this.state.todos && this.state.todos.length > 0 ?
-                (
-                <div>
-                    <ul>
-                        {
-                            this.state.todos.map((todo, index) => (
-                                <TodoItem 
-                                key={todo.id}
-                                todo={todo}
-                                handleDelete={this.handleDelete}
-                                handleCheckedTodos={this.handleCheckedTodos}
-                                handleDone={this.handleDone}
-                                handleEdit={()=>this.handleEdit(todo.id, todo.name)}
-                                handleMoveUp={()=>this.handleMoveUp(index)}
-                                handleMoveDown={()=>this.handleMoveDown(index)}
-                                />
-                            ))
-                        }
-                    </ul>
-                </div>
-                )
-                : (
-                    <div>No Tasks...</div>
-                )
-
-            }
-
-            <div className="inputContainer">
-                <input
-                onChange={this.handleInputChange} 
-                value={this.state.inputValue} 
-                className="form-control form-control-md" 
-                type="text" 
-                ></input>
-                 
-
-                <button onClick={this.handleAddTodo} type="button" className="btn btn-primary">Add</button>
-
-            </div>
-            <div style={{ color: "red" }}> {this.state.error} </div>
-
-            <br />
-            <br />
-
-           <DeleteButtons
-                deleteCheckedTasks={this.deleteCheckedTasks}
-                deleteDoneTasks={this.deleteDoneTasks}
-                deleteAllTasks={this.deleteAllTasks}
-                />
-
-            <br />
-
-            {this.state.editor.isEditing && (
-                
-                <div>
-    
-                 <EditorComponent 
-                    key={this.state.todos.id}
-                    value={this.state.editor.inputValue}
-                    handleEditorChange={this.handleEditorChange}
-                    handleEditorSave={this.handleEditorSave}
-                    />
-                </div>
-
-            )}
-               
-
-            </div>
-        )
-    }
-
+				{editor.isEditing && (
+					<div>
+						<EditorComponent
+							key={todos.id}
+							value={editor.inputValue}
+							handleEditorChange={handleEditorChange}
+							handleEditorSave={handleEditorSave}
+						/>
+					</div>
+				)}
+			</div>
+		);
+	}
 }
-
 
 export default Todo;
