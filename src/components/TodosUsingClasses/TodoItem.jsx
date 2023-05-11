@@ -5,12 +5,20 @@ import "./TodoItem.css";
 
 class TodoItem extends React.Component {
 	render() {
+		const {
+			todo,
+			handleEdit,
+			handleCheckedTodos,
+			handleDone,
+			handleDelete,
+			handleMove,
+		} = this.props;
 		return (
 			<div>
 				<li
-					key={this.props.todo.id}
+					key={todo.id}
 					style={{
-						textDecoration: this.props.todo.isDone ? "line-through" : "none",
+						textDecoration: todo.isDone ? "line-through" : "none",
 					}}
 				>
 					<div className="listItemsContainer">
@@ -18,28 +26,26 @@ class TodoItem extends React.Component {
 							<div>
 								<input
 									type="checkbox"
-									checked={this.props.todo.isChecked}
-									onChange={() =>
-										this.props.handleCheckedTodos(this.props.todo.id)
-									}
+									checked={todo.isChecked}
+									onChange={() => handleCheckedTodos(todo.id)}
 								/>
 							</div>
 							<div>
-								<p>{this.props.todo.name}</p>
+								<p>{todo.name}</p>
 							</div>
 						</div>
 
 						<div className="upDownContainer">
 							<button
 								className="btn btn-info"
-								onClick={() => this.props.handleMoveUp(this.props.todo.id)}
+								onClick={() => handleMove(todo.id, "up")}
 							>
 								<FontAwesomeIcon icon={faArrowUp} />
 							</button>
 
 							<button
 								className="btn btn-info"
-								onClick={() => this.props.handleMoveDown(this.props.todo.id)}
+								onClick={() => handleMove(todo.id, "down")}
 							>
 								<FontAwesomeIcon icon={faArrowDown} />
 							</button>
@@ -47,7 +53,7 @@ class TodoItem extends React.Component {
 
 						<div className="buttonsContainer">
 							<button
-								onClick={this.props.handleEdit}
+								onClick={handleEdit}
 								type="button"
 								className="btn btn-secondary"
 							>
@@ -56,7 +62,7 @@ class TodoItem extends React.Component {
 							</button>
 
 							<button
-								onClick={() => this.props.handleDone(this.props.todo.id)}
+								onClick={() => handleDone(todo.id)}
 								type="button"
 								className="btn btn-success"
 							>
@@ -65,7 +71,7 @@ class TodoItem extends React.Component {
 							</button>
 
 							<button
-								onClick={() => this.props.handleDelete(this.props.todo.id)}
+								onClick={() => handleDelete(todo.id)}
 								type="button"
 								className="btn btn-danger"
 							>

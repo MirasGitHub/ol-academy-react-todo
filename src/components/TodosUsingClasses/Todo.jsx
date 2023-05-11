@@ -1,6 +1,8 @@
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import TodoItem from "./TodoItem";
+import TodoAdd from "./TodoAdd";
 import DeleteButtons from "./DeleteButtons";
 import EditorComponent from "./EditorComponent";
 
@@ -42,24 +44,6 @@ class Todo extends React.Component {
 
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleAddTodo = this.handleAddTodo.bind(this);
-
-		const {
-			handleDelete,
-			handleCheckedTodos,
-			handleDone,
-			handleEdit,
-			handleMoveUp,
-			handleMoveDown,
-			handleInputChange,
-			handleAddTodo,
-			deleteCheckedTasks,
-			deleteDoneTasks,
-			deleteAllTasks,
-			handleEditorChange,
-			handleEditorSave,
-		} = this;
-
-		const { todos, inputValue, error, editor } = this.state;
 	}
 
 	handleInputChange = (event) => {
@@ -69,23 +53,19 @@ class Todo extends React.Component {
 	};
 
 	handleAddTodo() {
-		const inputVal = this.state.inputValue;
-		const usedTodoArr = this.state.todos.map((todo) => todo.name);
+		const { inputValue, todos } = this.state;
 
-		const usedIds = this.state.todos.map((todo) => todo.id);
-		let newId = 0;
+		const inputVal = inputValue;
+		const usedTodoArr = todos.map((todo) => todo.name);
+		const v4Id = uuidv4();
 
-		if (usedIds.length > 0) {
-			newId = Math.max(...usedIds) + 1;
-		}
-
-		if (inputVal !== "" && !usedTodoArr.includes(inputVal)) {
+		if (inputVal.trim() !== "" && !usedTodoArr.includes(inputVal.trim())) {
 			this.setState({
 				todos: [
-					...this.state.todos,
+					...todos,
 					{
 						name: inputVal,
-						id: newId,
+						id: v4Id,
 						isDone: false,
 						isChecked: false,
 					},
@@ -93,13 +73,13 @@ class Todo extends React.Component {
 				inputValue: "",
 				error: "",
 			});
-		} else if (usedTodoArr.includes(inputVal)) {
+		} else if (usedTodoArr.includes(inputVal.trim())) {
 			this.setState({
 				error: "This Task Already Exists.",
 			});
 		}
 
-		if (inputVal === "") {
+		if (inputVal.trim() === "") {
 			this.setState({
 				error: "Please Enter Your Task",
 			});
@@ -107,10 +87,14 @@ class Todo extends React.Component {
 	}
 
 	handleDelete = (id) => {
-		const filteredTodos = this.state.todos.filter((todo) => todo.id !== id);
+		const { todos } = this.state;
+		const filteredTodos = todos.filter((todo) => todo.id !== id);
 
 		this.setState({
 			todos: filteredTodos,
+			editor: {
+				isEditing: false,
+			},
 		});
 	};
 
@@ -196,6 +180,14 @@ class Todo extends React.Component {
 		});
 	};
 
+	handleEditorCancel = () => {
+		this.setState({
+			editor: {
+				isEditing: false,
+			},
+		});
+	};
+
 	handleEditorSave = () => {
 		const todos = this.state.todos;
 
@@ -211,7 +203,46 @@ class Todo extends React.Component {
 			editor: {
 				isEditing: false,
 			},
+			error: "",
 		});
+	};
+
+	handleKeyDownOnAdd = (event) => {
+		if (event.key === "Enter") {
+			this.handleAddTodo();
+		}
+	};
+
+	handleKeyDownOnSave = (event) => {
+		if (event.key === "Enter") {
+			this.handleEditorSave();
+		}
+	};
+
+	handleMove = (index, direction) => {
+		if (index === 0 || index === this.state.todos.length - 1) {
+			return;
+		}
+
+		console.log(index, direction);
+
+		if (direction === "up") {
+			this.setState((prevState) => {
+				const todos = [...prevState.todos];
+				const temp = todos[index];
+				todos[index] = todos[index - 1];
+				todos[index - 1] = temp;
+				return { todos };
+			});
+		} else if (direction === "down") {
+			this.setState((prevState) => {
+				const todos = [...prevState.todos];
+				const temp = todos[index];
+				todos[index] = todos[index + 1];
+				todos[index + 1] = temp;
+				return { todos };
+			});
+		}
 	};
 
 	handleMoveUp = (id) => {
@@ -244,7 +275,7 @@ class Todo extends React.Component {
 
 	render() {
 		const { title } = this.props;
-		const { todos, inputValue, error, editor } = this.state;
+		const { todos, error, editor, inputValue } = this.state;
 		const {
 			handleDelete,
 			handleCheckedTodos,
@@ -252,13 +283,17 @@ class Todo extends React.Component {
 			handleEdit,
 			handleMoveUp,
 			handleMoveDown,
-			handleInputChange,
-			handleAddTodo,
 			deleteCheckedTasks,
 			deleteDoneTasks,
 			deleteAllTasks,
 			handleEditorChange,
 			handleEditorSave,
+			handleMove,
+			handleInputChange,
+			handleAddTodo,
+			handleKeyDownOnAdd,
+			handleKeyDownOnSave,
+			handleEditorCancel,
 		} = this;
 		return (
 			<div>
@@ -275,8 +310,9 @@ class Todo extends React.Component {
 									handleCheckedTodos={handleCheckedTodos}
 									handleDone={handleDone}
 									handleEdit={() => handleEdit(todo.id, todo.name)}
-									handleMoveUp={() => handleMoveUp(index)}
-									handleMoveDown={() => handleMoveDown(index)}
+									//handleMoveUp={() => handleMoveUp(index)}
+									//handleMoveDown={() => handleMoveDown(index)}
+									handleMove={() => handleMove(index, this.direction)}
 								/>
 							))}
 						</ul>
@@ -285,23 +321,13 @@ class Todo extends React.Component {
 					<div>No Tasks...</div>
 				)}
 
-				<div className="inputContainer">
-					<input
-						onChange={this.handleInputChange}
-						value={this.state.inputValue}
-						className="form-control form-control-md"
-						type="text"
-					></input>
-
-					<button
-						onClick={this.handleAddTodo}
-						type="button"
-						className="btn btn-primary"
-					>
-						Add
-					</button>
-				</div>
-				<div style={{ color: "red" }}> {error} </div>
+				<TodoAdd
+					handleAddTodo={handleAddTodo}
+					handleKeyDownOnAdd={handleKeyDownOnAdd}
+					handleInputChange={handleInputChange}
+					inputValue={inputValue}
+					error={error}
+				/>
 
 				<br />
 				<br />
@@ -321,6 +347,8 @@ class Todo extends React.Component {
 							value={editor.inputValue}
 							handleEditorChange={handleEditorChange}
 							handleEditorSave={handleEditorSave}
+							handleKeyDownOnSave={handleKeyDownOnSave}
+							handleEditorCancel={handleEditorCancel}
 						/>
 					</div>
 				)}
