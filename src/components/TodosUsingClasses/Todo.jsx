@@ -84,9 +84,6 @@ class Todo extends React.Component {
 				error: "Please Enter Your Task",
 			});
 		}
-
-		console.log("Added -", inputVal);
-		console.log(todos);
 	}
 
 	handleDelete = (id) => {
@@ -99,9 +96,6 @@ class Todo extends React.Component {
 				isEditing: false,
 			},
 		});
-
-		console.log("Deleted-", id);
-		console.log(filteredTodos);
 	};
 
 	handleEdit = (id, inputValue) => {
@@ -112,7 +106,6 @@ class Todo extends React.Component {
 				isEditing: true,
 			},
 		});
-		console.log("Edit - ", id, inputValue);
 	};
 
 	handleDone = (id) => {
@@ -128,8 +121,6 @@ class Todo extends React.Component {
 	deleteDoneTasks = () => {
 		this.setState((prevState) => {
 			const todos = this.state.todos.filter((todo) => !todo.isDone);
-			console.log("Deleted Completed Task");
-
 			return {
 				...prevState,
 				todos,
@@ -151,7 +142,6 @@ class Todo extends React.Component {
 				},
 			});
 		}
-		console.log("Deleted All tasks");
 	};
 
 	handleCheckedTodos = (id) => {
@@ -229,37 +219,7 @@ class Todo extends React.Component {
 		}
 	};
 
-	handleMove = (index, direction) => {
-		if (index === 0 || index === this.state.todos.length - 1) {
-			return;
-		}
-
-		console.log(index, direction);
-
-		if (direction === "up") {
-			this.setState((prevState) => {
-				const todos = [...prevState.todos];
-				const temp = todos[index];
-				todos[index] = todos[index - 1];
-				todos[index - 1] = temp;
-				return { todos };
-			});
-		} else if (direction === "down") {
-			this.setState((prevState) => {
-				const todos = [...prevState.todos];
-				const temp = todos[index];
-				todos[index] = todos[index + 1];
-				todos[index + 1] = temp;
-				return { todos };
-			});
-		}
-	};
-
 	handleMoveUp = (id) => {
-		if (id === 0) {
-			return;
-		}
-
 		this.setState((prevState) => {
 			const todos = [...prevState.todos];
 			const temp = todos[id];
@@ -270,10 +230,6 @@ class Todo extends React.Component {
 	};
 
 	handleMoveDown = (id) => {
-		if (id === this.state.todos.length - 1) {
-			return;
-		}
-
 		this.setState((prevState) => {
 			const todos = [...prevState.todos];
 			const temp = todos[id];
@@ -298,7 +254,6 @@ class Todo extends React.Component {
 			deleteAllTasks,
 			handleEditorChange,
 			handleEditorSave,
-			handleMove,
 			handleInputChange,
 			handleAddTodo,
 			handleKeyDownOnAdd,
@@ -321,7 +276,8 @@ class Todo extends React.Component {
 									handleEdit={() => handleEdit(todo.id, todo.name)}
 									handleMoveUp={() => handleMoveUp(index)}
 									handleMoveDown={() => handleMoveDown(index)}
-									//handleMove={() => handleMove(index, this.direction)}
+									index={index}
+									todos={todos}
 								/>
 							))}
 						</ul>
@@ -342,6 +298,7 @@ class Todo extends React.Component {
 					deleteCheckedTasks={deleteCheckedTasks}
 					deleteDoneTasks={deleteDoneTasks}
 					deleteAllTasks={deleteAllTasks}
+					todos={todos}
 				/>
 				<br />
 				{editor.isEditing && (

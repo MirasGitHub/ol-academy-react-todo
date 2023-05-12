@@ -3,7 +3,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import Todo from "./components/TodosUsingHooks/Todo";
+import Todo from "./components/TodosUsingClasses/Todo";
 
 const App = () => {
 	return (

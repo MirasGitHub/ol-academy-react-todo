@@ -3,12 +3,13 @@ import "./DeleteButtons.css";
 
 class DeleteButtons extends React.Component {
 	render() {
-		const { deleteCheckedTasks, deleteDoneTasks, deleteAllTasks } = this.props;
+		const { deleteCheckedTasks, deleteDoneTasks, deleteAllTasks, todos } =
+			this.props;
 
 		return (
 			<div className="deleteBtnsContainer">
 				<button
-					disabled={false}
+					disabled={todos.length === 0 ? true : false}
 					onClick={deleteCheckedTasks}
 					type="button"
 					className="btn btn-warning"
@@ -17,6 +18,7 @@ class DeleteButtons extends React.Component {
 				</button>
 
 				<button
+					disabled={todos.length === 0 ? true : false}
 					onClick={deleteDoneTasks}
 					type="button"
 					className="btn btn-info"
@@ -25,6 +27,7 @@ class DeleteButtons extends React.Component {
 				</button>
 
 				<button
+					disabled={todos.length === 0 ? true : false}
 					onClick={deleteAllTasks}
 					type="button"
 					className="btn btn-danger"

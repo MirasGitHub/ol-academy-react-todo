@@ -14,6 +14,8 @@ class TodoItem extends React.Component {
 			handleMove,
 			handleMoveUp,
 			handleMoveDown,
+			index,
+			todos,
 		} = this.props;
 		return (
 			<div>
@@ -39,6 +41,7 @@ class TodoItem extends React.Component {
 
 						<div className="upDownContainer">
 							<button
+								disabled={index === 0 ? true : false}
 								className="btn btn-info"
 								onClick={() => handleMoveUp(todo.id)}
 							>
@@ -46,6 +49,7 @@ class TodoItem extends React.Component {
 							</button>
 
 							<button
+								disabled={index === todos.length - 1 ? true : false}
 								className="btn btn-info"
 								onClick={() => handleMoveDown(todo.id)}
 							>
