@@ -1,4 +1,5 @@
 import React from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faCircleCheck,
@@ -37,7 +38,7 @@ const TodoItem = (props) => {
 
 							<div className="upDownContainer">
 								<button
-									className="btn btn-light"
+									className="btn btn-info"
 									disabled={index === 0 ? true : false}
 									onClick={() => handleMove(index, "up")}
 								>
@@ -45,7 +46,7 @@ const TodoItem = (props) => {
 								</button>
 
 								<button
-									className="btn btn-light"
+									className="btn btn-info"
 									disabled={index === todos.length - 1 ? true : false}
 									onClick={() => handleMove(index, "down")}
 								>
