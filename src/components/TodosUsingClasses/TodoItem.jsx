@@ -12,6 +12,8 @@ class TodoItem extends React.Component {
 			handleDone,
 			handleDelete,
 			handleMove,
+			handleMoveUp,
+			handleMoveDown,
 		} = this.props;
 		return (
 			<div>
@@ -38,14 +40,14 @@ class TodoItem extends React.Component {
 						<div className="upDownContainer">
 							<button
 								className="btn btn-info"
-								onClick={() => handleMove(todo.id, "up")}
+								onClick={() => handleMoveUp(todo.id)}
 							>
 								<FontAwesomeIcon icon={faArrowUp} />
 							</button>
 
 							<button
 								className="btn btn-info"
-								onClick={() => handleMove(todo.id, "down")}
+								onClick={() => handleMoveDown(todo.id)}
 							>
 								<FontAwesomeIcon icon={faArrowDown} />
 							</button>

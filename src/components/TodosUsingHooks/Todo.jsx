@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+
 import { DeleteButtons } from "./DeleteButtons";
 import { TaskEditForm } from "./TaskEditForm";
 import TodoForm from "./TodoForm";
@@ -28,11 +30,8 @@ const Todo = (props) => {
 			errorMessage: "",
 		},
 	]);
-
 	const [inputValue, setInputValue] = useState("");
-
 	const [errorMessage, setErrorMessage] = useState("");
-
 	const [updateTask, setUpdateTask] = useState([
 		{
 			id: undefined,
@@ -40,8 +39,6 @@ const Todo = (props) => {
 			isEditing: false,
 		},
 	]);
-
-	//Handle Task Complete/Done
 
 	const handleCompleteTodo = (id) => {
 		setTodos(
@@ -51,13 +48,8 @@ const Todo = (props) => {
 		);
 	};
 
-	//Handle Input Value
-	const handleInputValue = (e) => {
-		setInputValue(e.target.value);
-	};
-
-	//Handle Checked Tasks
 	const handleCheckedTasks = (id) => {
+		console.log(id);
 		setTodos(
 			todos.map((todo) =>
 				todo.id === id ? { ...todo, isChecked: !todo.isChecked } : todo
@@ -65,24 +57,16 @@ const Todo = (props) => {
 		);
 	};
 
-	//Add new Task
-
 	const addTask = () => {
 		const usedTaskNames = todos.map((todo) => todo.name);
+		const v4Id = uuidv4();
 
-		if (inputValue && !usedTaskNames.includes(inputValue)) {
-			const usedIds = todos.map((todo) => todo.id);
-			let newId = 0;
-
-			if (usedIds.length > 0) {
-				newId = Math.max(...usedIds) + 1;
-			}
-
+		if (inputValue.trim() && !usedTaskNames.includes(inputValue.trim())) {
 			setTodos([
 				...todos,
 				{
-					id: newId,
-					name: inputValue,
+					id: v4Id,
+					name: inputValue.trim(),
 					isDone: false,
 					isChecked: false,
 					errorMessage: "",
@@ -100,32 +84,25 @@ const Todo = (props) => {
 		}
 	};
 
-	// Delete todo
-
 	const handleDeleteTodo = (id) => {
 		setTodos(todos.filter((todo) => todo.id !== id));
 	};
-
-	//Delete Checked Tasks
 
 	const deleteCheckedTasks = () => {
 		setTodos(todos.filter((todo) => !todo.isChecked));
 	};
 
-	//Delete All Tasks
 	const deleteAllTask = () => {
 		setTodos([]);
 		setErrorMessage("");
 		setInputValue("");
 	};
 
-	//Delete Complete Tasks
 	const deleteCompleteTasks = () => {
 		console.log("deleted");
 		setTodos(todos.filter((todo) => !todo.isDone));
 	};
 
-	//Change Holder
 	const changeHolder = (e) => {
 		setUpdateTask({
 			...updateTask,
@@ -133,8 +110,9 @@ const Todo = (props) => {
 		});
 	};
 
-	//Handle Edit
 	const handleEdit = (id, inputVal) => {
+		console.log(id, inputVal);
+
 		todos.map((todo) => {
 			if (todo.id === id) {
 				setUpdateTask({
@@ -146,98 +124,95 @@ const Todo = (props) => {
 		});
 	};
 
-	//Update Todo
 	const updateTodo = () => {
-		console.log("Saved");
-
 		todos.map((todo) => {
 			if (todo.id === updateTask.id) {
 				todo.name = updateTask.inputVal;
 			}
-
 			return todo;
 		});
-
 		setTodos([...todos]);
-
 		setUpdateTask({
 			inputVal: "",
 		});
+		console.log("updated", todos);
 	};
 
-	//handle Move Up
+	const handleCancelUpdating = () => {
+		console.log("canceled");
+		setUpdateTask([]);
+	};
+
 	const handleMoveUp = (index) => {
 		if (index === 0) {
 			return;
 		}
 
 		setTodos((prevTodos) => {
-			console.log("PrevTodos", prevTodos);
-
 			let todos = [...prevTodos];
-
 			let temp = todos[index];
-
 			todos[index] = todos[index - 1];
-
 			todos[index - 1] = temp;
 
-			console.log("PostTodos", todos);
-
-			return { todos };
+			return todos;
 		});
 	};
 
-	//handle Move Down
 	const handleMoveDown = (index) => {
-		console.log("down");
-		console.log(index);
-
 		if (index === todos.length - 1) {
 			return;
 		}
 
 		setTodos((prevTodos) => {
-			console.log("PrevTodos", prevTodos);
-
 			let todos = [...prevTodos];
-
 			let temp = todos[index];
-
 			todos[index] = todos[index + 1];
-
 			todos[index + 1] = temp;
 
-			console.log("PostTodos", todos);
-
-			return { todos };
+			return todos;
 		});
 	};
+
+	const handleOnKeyDownOnAdd = (event) => {
+		if (event.key === "Enter") {
+			addTask();
+		}
+	};
+
+	const handleOnKeyDownOnSave = (event) => {
+		if (event.key === "Enter") {
+			updateTodo();
+		}
+	};
+
+	const { title } = props;
 
 	return (
 		<div>
 			<br />
-			<h1>{props.title}</h1>
+			<h1>{title}</h1>
 			<br />
-
-			{updateTask && updateTask && updateTask.isEditing ? (
+			{updateTask && updateTask.isEditing ? (
 				<TaskEditForm
 					key={todos.id}
-					value={updateTask.inputVal}
-					updateTask={updateTask}
+					inputVal={updateTask.inputVal}
 					changeHolder={changeHolder}
+					handleCancelUpdating={handleCancelUpdating}
 					updateTodo={updateTodo}
+					setInputValue={setInputValue}
+					value={inputValue}
+					handleOnKeyDownOnSave={handleOnKeyDownOnSave}
 				/>
 			) : (
 				<TodoForm
 					addTask={addTask}
-					handleInputValue={handleInputValue}
 					setTodos={setTodos}
 					errorMessage={errorMessage}
 					inputValue={inputValue}
+					setInputValue={setInputValue}
+					handleOnKeyDownOnAdd={handleOnKeyDownOnAdd}
 				/>
 			)}
-
 			{todos && todos.length > 0 ? (
 				<TodoItem
 					todos={todos}
@@ -245,8 +220,6 @@ const Todo = (props) => {
 					handleCompleteTodo={handleCompleteTodo}
 					handleDeleteTodo={handleDeleteTodo}
 					handleCheckedTasks={handleCheckedTasks}
-					deleteCompleteTasks={deleteCompleteTasks}
-					setUpdateTask={setUpdateTask}
 					handleEdit={handleEdit}
 					handleMoveUp={handleMoveUp}
 					handleMoveDown={handleMoveDown}
@@ -254,7 +227,6 @@ const Todo = (props) => {
 			) : (
 				<h3>No tasks...</h3>
 			)}
-
 			<DeleteButtons
 				deleteCheckedTasks={deleteCheckedTasks}
 				deleteCompleteTasks={deleteCompleteTasks}
@@ -263,5 +235,4 @@ const Todo = (props) => {
 		</div>
 	);
 };
-
 export default Todo;

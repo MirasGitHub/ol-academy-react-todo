@@ -84,6 +84,9 @@ class Todo extends React.Component {
 				error: "Please Enter Your Task",
 			});
 		}
+
+		console.log("Added -", inputVal);
+		console.log(todos);
 	}
 
 	handleDelete = (id) => {
@@ -96,6 +99,9 @@ class Todo extends React.Component {
 				isEditing: false,
 			},
 		});
+
+		console.log("Deleted-", id);
+		console.log(filteredTodos);
 	};
 
 	handleEdit = (id, inputValue) => {
@@ -106,6 +112,7 @@ class Todo extends React.Component {
 				isEditing: true,
 			},
 		});
+		console.log("Edit - ", id, inputValue);
 	};
 
 	handleDone = (id) => {
@@ -121,6 +128,8 @@ class Todo extends React.Component {
 	deleteDoneTasks = () => {
 		this.setState((prevState) => {
 			const todos = this.state.todos.filter((todo) => !todo.isDone);
+			console.log("Deleted Completed Task");
+
 			return {
 				...prevState,
 				todos,
@@ -142,6 +151,7 @@ class Todo extends React.Component {
 				},
 			});
 		}
+		console.log("Deleted All tasks");
 	};
 
 	handleCheckedTodos = (id) => {
@@ -298,7 +308,6 @@ class Todo extends React.Component {
 		return (
 			<div>
 				<h1>{title}</h1>
-
 				{todos && todos.length > 0 ? (
 					<div>
 						<ul>
@@ -310,9 +319,9 @@ class Todo extends React.Component {
 									handleCheckedTodos={handleCheckedTodos}
 									handleDone={handleDone}
 									handleEdit={() => handleEdit(todo.id, todo.name)}
-									//handleMoveUp={() => handleMoveUp(index)}
-									//handleMoveDown={() => handleMoveDown(index)}
-									handleMove={() => handleMove(index, this.direction)}
+									handleMoveUp={() => handleMoveUp(index)}
+									handleMoveDown={() => handleMoveDown(index)}
+									//handleMove={() => handleMove(index, this.direction)}
 								/>
 							))}
 						</ul>
@@ -320,7 +329,6 @@ class Todo extends React.Component {
 				) : (
 					<div>No Tasks...</div>
 				)}
-
 				<TodoAdd
 					handleAddTodo={handleAddTodo}
 					handleKeyDownOnAdd={handleKeyDownOnAdd}
@@ -328,18 +336,14 @@ class Todo extends React.Component {
 					inputValue={inputValue}
 					error={error}
 				/>
-
 				<br />
 				<br />
-
 				<DeleteButtons
 					deleteCheckedTasks={deleteCheckedTasks}
 					deleteDoneTasks={deleteDoneTasks}
 					deleteAllTasks={deleteAllTasks}
 				/>
-
 				<br />
-
 				{editor.isEditing && (
 					<div>
 						<EditorComponent

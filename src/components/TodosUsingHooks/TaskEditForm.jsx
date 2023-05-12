@@ -1,22 +1,33 @@
-import React from 'react'
-import './TaskEditorForm.css'
+import React from "react";
+import "./TaskEditorForm.css";
 
-const TaskEditForm = (props) => {
-  return (
-    <div className='editorContainer'>
-      <input type="text" 
-      className='form-control'
-      key={props.id}
-      value={props.value}
-      handleEdit={props.handleEdit}
-      onChange={ (e) => props.changeHolder(e)}/>
+const TaskEditForm = ({
+	id,
+	inputVal,
+	handleOnKeyDownOnSave,
+	updateTodo,
+	changeHolder,
+	handleCancelUpdating,
+}) => {
+	return (
+		<div className="editorContainer">
+			<input
+				type="text"
+				className="form-control"
+				key={id}
+				value={inputVal}
+				onKeyDown={handleOnKeyDownOnSave}
+				onChange={(e) => changeHolder(e)}
+			/>
 
-      <button 
-      className='btn btn-primary'
-      onClick={props.updateTodo}>Save</button>
-    </div>
-  )
-}
+			<button className="btn btn-primary" onClick={updateTodo}>
+				Save
+			</button>
+			<button className="btn btn-warning" onClick={handleCancelUpdating}>
+				Cancel
+			</button>
+		</div>
+	);
+};
 
-export {TaskEditForm};
-
+export { TaskEditForm };
