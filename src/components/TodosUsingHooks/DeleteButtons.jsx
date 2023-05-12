@@ -7,18 +7,31 @@ const DeleteButtons = ({
 	deleteCheckedTasks,
 	deleteCompleteTasks,
 	deleteAllTask,
+	todos,
 }) => {
 	return (
 		<div className="btns-container">
-			<button className="btn btn-secondary" onClick={deleteCheckedTasks}>
+			<button
+				disabled={todos.length === 0 ? true : false}
+				className="btn btn-secondary"
+				onClick={deleteCheckedTasks}
+			>
 				<FontAwesomeIcon icon={faTrashCan} /> Checked Tasks
 			</button>
 
-			<button className="btn btn-info" onClick={deleteCompleteTasks}>
+			<button
+				disabled={todos.length === 0 ? true : false}
+				className="btn btn-info"
+				onClick={deleteCompleteTasks}
+			>
 				<FontAwesomeIcon icon={faTrashCan} /> Completed Tasks
 			</button>
 
-			<button className="btn btn-danger" onClick={deleteAllTask}>
+			<button
+				disabled={todos.length === 0 ? true : false}
+				className="btn btn-danger"
+				onClick={deleteAllTask}
+			>
 				<FontAwesomeIcon icon={faTrashCan} /> All Tasks
 			</button>
 		</div>

@@ -1,40 +1,45 @@
 .isDone {
-    text-decoration: line-through;
-    opacity: 0.5;
+	text-decoration: line-through;
+	opacity: 0.5;
 }
 
-
-.todoItemContainer{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: rgb(34, 22, 85);
-    border-radius: 4px;
-    max-width: 60vw;
+.todoItemContainer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: rgb(34, 22, 85);
+	border-radius: 4px;
+	max-width: 60vw;
 }
 
-.todoItemContainer:nth-child(1){
-    padding: 10px;
-    margin: 5px;
+.todoItemContainer:nth-child(1) {
+	padding: 10px;
+	margin: 5px;
 }
 
-li{
-    margin: 10px;
+li {
+	margin: 10px;
 }
 
-.checkbox{
-    margin-right: 5px;
+.checkbox {
+	margin-right: 5px;
 }
 
-.iconsWrap span{
-    margin: 7px;
-    color: rgb(186, 231, 253);
+.iconsWrap span {
+	margin: 7px;
+	color: rgb(186, 231, 253);
 }
 
-.todoItemContainer .iconsWrap span:hover{
-    color: rgb(68, 163, 240);
+.todoItemContainer .iconsWrap span:hover {
+	color: rgb(68, 163, 240);
 }
 
-.iconsWrap span, .upDownContainer, input{
-    cursor: pointer;
+.iconsWrap span,
+.upDownContainer,
+input {
+	cursor: pointer;
+}
+
+.upDownContainer button {
+	margin: 0 5px 0 0;
 }

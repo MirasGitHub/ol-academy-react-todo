@@ -13,8 +13,7 @@ const TodoItem = (props) => {
 	const {
 		todos,
 		handleCheckedTasks,
-		handleMoveUp,
-		handleMoveDown,
+		handleMove,
 		handleCompleteTodo,
 		handleEdit,
 		handleDeleteTodo,
@@ -37,13 +36,21 @@ const TodoItem = (props) => {
 							</div>
 
 							<div className="upDownContainer">
-								<span onClick={() => handleMoveUp(index)}>
+								<button
+									className="btn btn-light"
+									disabled={index === 0 ? true : false}
+									onClick={() => handleMove(index, "up")}
+								>
 									<FontAwesomeIcon icon={faArrowUp} />
-								</span>
+								</button>
 
-								<span onClick={() => handleMoveDown(index)}>
+								<button
+									className="btn btn-light"
+									disabled={index === todos.length - 1 ? true : false}
+									onClick={() => handleMove(index, "down")}
+								>
 									<FontAwesomeIcon icon={faArrowDown} />
-								</span>
+								</button>
 							</div>
 
 							<div className="iconsWrap">

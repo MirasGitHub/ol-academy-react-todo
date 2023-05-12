@@ -49,7 +49,6 @@ const Todo = (props) => {
 	};
 
 	const handleCheckedTasks = (id) => {
-		console.log(id);
 		setTodos(
 			todos.map((todo) =>
 				todo.id === id ? { ...todo, isChecked: !todo.isChecked } : todo
@@ -96,10 +95,12 @@ const Todo = (props) => {
 		setTodos([]);
 		setErrorMessage("");
 		setInputValue("");
+		setUpdateTask({
+			isEditing: false,
+		});
 	};
 
 	const deleteCompleteTasks = () => {
-		console.log("deleted");
 		setTodos(todos.filter((todo) => !todo.isDone));
 	};
 
@@ -111,8 +112,6 @@ const Todo = (props) => {
 	};
 
 	const handleEdit = (id, inputVal) => {
-		console.log(id, inputVal);
-
 		todos.map((todo) => {
 			if (todo.id === id) {
 				setUpdateTask({
@@ -135,42 +134,33 @@ const Todo = (props) => {
 		setUpdateTask({
 			inputVal: "",
 		});
-		console.log("updated", todos);
 	};
 
 	const handleCancelUpdating = () => {
-		console.log("canceled");
 		setUpdateTask([]);
 	};
 
-	const handleMoveUp = (index) => {
-		if (index === 0) {
-			return;
+	const handleMove = (index, direction) => {
+		if (direction === "up") {
+			setTodos((prevTodos) => {
+				let todos = [...prevTodos];
+				let temp = todos[index];
+				todos[index] = todos[index - 1];
+				todos[index - 1] = temp;
+
+				return todos;
+			});
 		}
+		if (direction === "down") {
+			setTodos((prevTodos) => {
+				let todos = [...prevTodos];
+				let temp = todos[index];
+				todos[index] = todos[index + 1];
+				todos[index + 1] = temp;
 
-		setTodos((prevTodos) => {
-			let todos = [...prevTodos];
-			let temp = todos[index];
-			todos[index] = todos[index - 1];
-			todos[index - 1] = temp;
-
-			return todos;
-		});
-	};
-
-	const handleMoveDown = (index) => {
-		if (index === todos.length - 1) {
-			return;
+				return todos;
+			});
 		}
-
-		setTodos((prevTodos) => {
-			let todos = [...prevTodos];
-			let temp = todos[index];
-			todos[index] = todos[index + 1];
-			todos[index + 1] = temp;
-
-			return todos;
-		});
 	};
 
 	const handleOnKeyDownOnAdd = (event) => {
@@ -221,8 +211,7 @@ const Todo = (props) => {
 					handleDeleteTodo={handleDeleteTodo}
 					handleCheckedTasks={handleCheckedTasks}
 					handleEdit={handleEdit}
-					handleMoveUp={handleMoveUp}
-					handleMoveDown={handleMoveDown}
+					handleMove={handleMove}
 				/>
 			) : (
 				<h3>No tasks...</h3>
@@ -231,6 +220,7 @@ const Todo = (props) => {
 				deleteCheckedTasks={deleteCheckedTasks}
 				deleteCompleteTasks={deleteCompleteTasks}
 				deleteAllTask={deleteAllTask}
+				todos={todos}
 			/>
 		</div>
 	);
