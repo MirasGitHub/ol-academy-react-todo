@@ -125,23 +125,21 @@ const Todo = (props) => {
 
 	const updateTodo = () => {
 		todos.map((todo) => {
-			if (updateTask.inputVal === todo.name) {
-				setErrorMessage("please edit the task");
-				setUpdateTask({
-					isEditing: true,
-				});
-			} else if (todo.id === updateTask.id && updateTask.inputVal.length > 0) {
-				console.log(updateTask.inputVal === todo.name);
+			if (
+				todo.id === updateTask.id &&
+				updateTask.inputVal.length > 0 &&
+				updateTask.inputVal.trim() !== todo.name
+			) {
 				todo.name = updateTask.inputVal;
-				setErrorMessage("");
+				setUpdateTask(todo);
 			}
 			return todo;
 		});
 
-		setTodos([...todos]);
-		setUpdateTask({
-			inputVal: "",
-		});
+		//setTodos([...todos]);
+		// setUpdateTask({
+		// 	inputVal: "",
+		// });
 	};
 
 	const handleCancelUpdating = () => {
