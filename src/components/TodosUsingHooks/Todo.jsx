@@ -148,6 +148,7 @@ const Todo = (props) => {
 
 	const handleCancelUpdating = () => {
 		setUpdateTask([]);
+		setErrorMessage("");
 	};
 
 	const handleMove = (index, direction) => {
