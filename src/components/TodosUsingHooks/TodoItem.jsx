@@ -63,21 +63,22 @@ const TodoItem = (props) => {
 								</span>
 
 								{todo.isDone ? null : (
-									<span
-										className="btn btn-warning"
-										title="Edit"
-										onClick={() => handleEdit(todo.id, todo.name)}
-									>
-										<FontAwesomeIcon icon={faPen} />
-									</span>
+									<div>
+										<span
+											className="btn btn-warning"
+											title="Edit"
+											onClick={() => handleEdit(todo.id, todo.name)}
+										>
+											<FontAwesomeIcon icon={faPen} />
+										</span>
+										<span
+											className="btn btn-danger"
+											onClick={() => handleDeleteTodo(todo.id)}
+										>
+											<FontAwesomeIcon icon={faTrashCan} />
+										</span>
+									</div>
 								)}
-
-								<span
-									className="btn btn-danger"
-									onClick={() => handleDeleteTodo(todo.id)}
-								>
-									<FontAwesomeIcon icon={faTrashCan} />
-								</span>
 							</div>
 						</div>
 					</li>

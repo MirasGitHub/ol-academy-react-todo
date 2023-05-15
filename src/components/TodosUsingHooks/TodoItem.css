@@ -45,3 +45,10 @@ input {
 	width: 35px;
 	height: 35px;
 }
+
+.iconsWrap {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
