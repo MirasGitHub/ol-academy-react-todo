@@ -138,14 +138,12 @@ const Todo = (props) => {
 			) {
 				todo.name = updateTask.inputVal;
 				setUpdateTask(todo);
+				setErrorMessage("");
+			} else if (updateTask.inputVal.trim() === todo.name) {
+				setErrorMessage("please edit the task");
 			}
 			return todo;
 		});
-
-		//setTodos([...todos]);
-		// setUpdateTask({
-		// 	inputVal: "",
-		// });
 	};
 
 	const handleCancelUpdating = () => {
@@ -203,6 +201,7 @@ const Todo = (props) => {
 					setInputValue={setInputValue}
 					value={inputValue}
 					handleOnKeyDownOnSave={handleOnKeyDownOnSave}
+					errorMessage={errorMessage}
 				/>
 			) : (
 				<TodoForm
