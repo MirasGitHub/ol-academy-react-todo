@@ -2,7 +2,6 @@ import React from "react";
 import "./TaskEditorForm.css";
 
 const TaskEditForm = ({
-	id,
 	inputVal,
 	handleOnKeyDownOnSave,
 	updateTodo,

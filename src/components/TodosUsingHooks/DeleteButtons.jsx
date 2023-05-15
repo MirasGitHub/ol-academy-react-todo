@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import "./DeleteButtons.css";
@@ -9,10 +9,16 @@ const DeleteButtons = ({
 	deleteAllTask,
 	todos,
 }) => {
+	const [checked, setChecked] = useState();
+
+	useEffect(() => {
+		setChecked(todos && todos.some(({ isChecked }) => isChecked));
+	}, [todos]);
+
 	return (
 		<div className="btns-container">
 			<button
-				disabled={!todos.length}
+				disabled={checked}
 				className="btn btn-secondary"
 				onClick={deleteCheckedTasks}
 			>
@@ -20,7 +26,7 @@ const DeleteButtons = ({
 			</button>
 
 			<button
-				disabled={!todos.length}
+				disabled={checked}
 				className="btn btn-info"
 				onClick={deleteCompleteTasks}
 			>
@@ -28,7 +34,7 @@ const DeleteButtons = ({
 			</button>
 
 			<button
-				disabled={!todos.length}
+				disabled={checked}
 				className="btn btn-danger"
 				onClick={deleteAllTask}
 			>

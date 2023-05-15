@@ -125,8 +125,7 @@ const Todo = (props) => {
 
 	const updateTodo = () => {
 		todos.map((todo) => {
-			if (todo.id === updateTask.id && todo.name !== updateTask.inputVal) {
-				console.log(todo.name === updateTask.inputVal);
+			if (todo.id === updateTask.id && updateTask.inputVal.length > 0) {
 				todo.name = updateTask.inputVal;
 			}
 			return todo;
