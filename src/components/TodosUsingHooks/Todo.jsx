@@ -125,13 +125,19 @@ const Todo = (props) => {
 
 	const updateTodo = () => {
 		todos.map((todo) => {
-			if (todo.id === updateTask.id && updateTask.inputVal.length > 0) {
+			if (updateTask.inputVal === todo.name) {
+				setErrorMessage("please edit the task");
+				setUpdateTask({
+					isEditing: true,
+				});
+			} else if (todo.id === updateTask.id && updateTask.inputVal.length > 0) {
+				console.log(updateTask.inputVal === todo.name);
 				todo.name = updateTask.inputVal;
+				setErrorMessage("");
 			}
 			return todo;
 		});
 
-		console.log(updateTask.inputVal);
 		setTodos([...todos]);
 		setUpdateTask({
 			inputVal: "",
@@ -193,7 +199,6 @@ const Todo = (props) => {
 					setInputValue={setInputValue}
 					value={inputValue}
 					handleOnKeyDownOnSave={handleOnKeyDownOnSave}
-					todos={todos}
 				/>
 			) : (
 				<TodoForm
