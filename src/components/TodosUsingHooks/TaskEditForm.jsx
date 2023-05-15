@@ -14,7 +14,6 @@ const TaskEditForm = ({
 			<input
 				type="text"
 				className="form-control"
-				key={id}
 				value={inputVal}
 				onKeyDown={handleOnKeyDownOnSave}
 				onChange={(e) => changeHolder(e)}

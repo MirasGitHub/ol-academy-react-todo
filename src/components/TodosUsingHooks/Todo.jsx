@@ -127,11 +127,14 @@ const Todo = (props) => {
 
 	const updateTodo = () => {
 		todos.map((todo) => {
-			if (todo.id === updateTask.id) {
+			if (todo.id === updateTask.id && todo.name !== updateTask.inputVal) {
+				console.log(todo.name === updateTask.inputVal);
 				todo.name = updateTask.inputVal;
 			}
 			return todo;
 		});
+
+		console.log(updateTask.inputVal);
 		setTodos([...todos]);
 		setUpdateTask({
 			inputVal: "",
