@@ -10,15 +10,17 @@ const DeleteButtons = ({
 	todos,
 }) => {
 	const [checked, setChecked] = useState();
+	const [done, setDone] = useState();
 
 	useEffect(() => {
 		setChecked(todos && todos.some(({ isChecked }) => isChecked));
+		setDone(todos && todos.some(({ isDone }) => isDone));
 	}, [todos]);
 
 	return (
 		<div className="btns-container">
 			<button
-				disabled={checked}
+				disabled={!checked}
 				className="btn btn-secondary"
 				onClick={deleteCheckedTasks}
 			>
@@ -26,7 +28,7 @@ const DeleteButtons = ({
 			</button>
 
 			<button
-				disabled={checked}
+				disabled={!done}
 				className="btn btn-info"
 				onClick={deleteCompleteTasks}
 			>
@@ -34,7 +36,7 @@ const DeleteButtons = ({
 			</button>
 
 			<button
-				disabled={checked}
+				disabled={!todos.length}
 				className="btn btn-danger"
 				onClick={deleteAllTask}
 			>

@@ -193,6 +193,7 @@ const Todo = (props) => {
 					setInputValue={setInputValue}
 					value={inputValue}
 					handleOnKeyDownOnSave={handleOnKeyDownOnSave}
+					todos={todos}
 				/>
 			) : (
 				<TodoForm
