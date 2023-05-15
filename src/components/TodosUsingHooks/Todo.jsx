@@ -46,6 +46,9 @@ const Todo = (props) => {
 				todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
 			)
 		);
+		setUpdateTask({
+			isEditing: false,
+		});
 	};
 
 	const handleCheckedTasks = (id) => {
@@ -84,6 +87,9 @@ const Todo = (props) => {
 
 	const handleDeleteTodo = (id) => {
 		setTodos(todos.filter((todo) => todo.id !== id));
+		setUpdateTask({
+			isEditing: false,
+		});
 	};
 
 	const deleteCheckedTasks = () => {
