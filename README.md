@@ -1,4 +1,4 @@
-## React-ToDoApp- (Using React Classes)
+## React-ToDoApp- (Using React Classes and Hooks)
 
 ### Main Components:
  - Add, Remove, Edit, Delete Buttons:
