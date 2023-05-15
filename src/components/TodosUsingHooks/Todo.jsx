@@ -120,6 +120,7 @@ const Todo = (props) => {
 					isEditing: true,
 				});
 			}
+			return todo;
 		});
 	};
 
