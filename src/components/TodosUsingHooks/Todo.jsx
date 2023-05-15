@@ -6,8 +6,6 @@ import { TaskEditForm } from "./TaskEditForm";
 import TodoForm from "./TodoForm";
 import { TodoItem } from "./TodoItem";
 
-const v4Id = uuidv4();
-
 const Todo = (props) => {
 	const [todos, setTodos] = useState([
 		{
@@ -65,7 +63,7 @@ const Todo = (props) => {
 			setTodos([
 				...todos,
 				{
-					id: v4Id,
+					id: uuidv4(),
 					name: inputValue.trim(),
 					isDone: false,
 					isChecked: false,
@@ -146,10 +144,10 @@ const Todo = (props) => {
 	};
 
 	const handleMove = (index, direction) => {
+		let temp = todos[index];
 		if (direction === "up") {
 			setTodos((prevTodos) => {
 				let todos = [...prevTodos];
-				let temp = todos[index];
 				todos[index] = todos[index - 1];
 				todos[index - 1] = temp;
 
@@ -159,7 +157,6 @@ const Todo = (props) => {
 		if (direction === "down") {
 			setTodos((prevTodos) => {
 				let todos = [...prevTodos];
-				let temp = todos[index];
 				todos[index] = todos[index + 1];
 				todos[index + 1] = temp;
 

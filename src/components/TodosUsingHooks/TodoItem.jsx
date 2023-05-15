@@ -24,7 +24,7 @@ const TodoItem = (props) => {
 			<ul>
 				{todos.map((todo, index) => (
 					<li key={todo.id} className={todo.isDone ? "isDone" : ""}>
-						<div className="todoItemContainer" style={{ margin: "auto" }}>
+						<div className="todoItemContainer">
 							<div>
 								<input
 									type="checkbox"
@@ -39,7 +39,7 @@ const TodoItem = (props) => {
 							<div className="upDownContainer">
 								<button
 									className="btn btn-info"
-									disabled={index === 0 ? true : false}
+									disabled={index === 0}
 									onClick={() => handleMove(index, "up")}
 								>
 									<FontAwesomeIcon icon={faArrowUp} />
@@ -47,7 +47,7 @@ const TodoItem = (props) => {
 
 								<button
 									className="btn btn-info"
-									disabled={index === todos.length - 1 ? true : false}
+									disabled={index === todos.length - 1}
 									onClick={() => handleMove(index, "down")}
 								>
 									<FontAwesomeIcon icon={faArrowDown} />
