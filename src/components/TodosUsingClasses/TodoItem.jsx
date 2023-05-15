@@ -11,7 +11,6 @@ class TodoItem extends React.Component {
 			handleCheckedTodos,
 			handleDone,
 			handleDelete,
-			handleMove,
 			handleMoveUp,
 			handleMoveDown,
 			index,

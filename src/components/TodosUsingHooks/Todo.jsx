@@ -6,6 +6,8 @@ import { TaskEditForm } from "./TaskEditForm";
 import TodoForm from "./TodoForm";
 import { TodoItem } from "./TodoItem";
 
+const v4Id = uuidv4();
+
 const Todo = (props) => {
 	const [todos, setTodos] = useState([
 		{
@@ -58,7 +60,6 @@ const Todo = (props) => {
 
 	const addTask = () => {
 		const usedTaskNames = todos.map((todo) => todo.name);
-		const v4Id = uuidv4();
 
 		if (inputValue.trim() && !usedTaskNames.includes(inputValue.trim())) {
 			setTodos([

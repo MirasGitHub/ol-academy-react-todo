@@ -8,6 +8,8 @@ import EditorComponent from "./EditorComponent";
 
 import "./Todo.css";
 
+const v4Id = uuidv4();
+
 class Todo extends React.Component {
 	constructor(props) {
 		super(props);
@@ -57,7 +59,6 @@ class Todo extends React.Component {
 
 		const inputVal = inputValue;
 		const usedTodoArr = todos.map((todo) => todo.name);
-		const v4Id = uuidv4();
 
 		if (inputVal.trim() !== "" && !usedTodoArr.includes(inputVal.trim())) {
 			this.setState({

@@ -12,7 +12,7 @@ const DeleteButtons = ({
 	return (
 		<div className="btns-container">
 			<button
-				disabled={todos.length === 0 ? true : false}
+				disabled={!todos.length ? true : false}
 				className="btn btn-secondary"
 				onClick={deleteCheckedTasks}
 			>
@@ -20,7 +20,7 @@ const DeleteButtons = ({
 			</button>
 
 			<button
-				disabled={todos.length === 0 ? true : false}
+				disabled={!todos.length ? true : false}
 				className="btn btn-info"
 				onClick={deleteCompleteTasks}
 			>
@@ -28,7 +28,7 @@ const DeleteButtons = ({
 			</button>
 
 			<button
-				disabled={todos.length === 0 ? true : false}
+				disabled={!todos.length ? true : false}
 				className="btn btn-danger"
 				onClick={deleteAllTask}
 			>
